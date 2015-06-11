@@ -18,14 +18,16 @@ shinyServer(function(input, output) {
     df_use <- read.csv(inFile$datapath,header=T)
     return(df_use)
   })
+  
+  
  
-  p_time < reactive({
+  p_time <- reactive({
     inFile <- input$fileInput
     if(is.null(inFile)) {
       #user has not yet uploaded a file yet
       return(NULL)
     } else {
-        p_out <- plot_maker(data_frame=df1(),yvar="Time",title1="Time",yname="Seconds")
+        p_out <- plot_maker(data_frame=df1(),yvar="Time",title1="Time",yname="Seconds",xlab="")
     }
   })
   
@@ -35,7 +37,7 @@ shinyServer(function(input, output) {
        #user has not yet uploaded a file yet
        return(NULL)
      } else { 
-        p_out <- plot_maker(data_frame=df1(),yvar="Accuracy",title1="Accuracy",yname="Score")
+        p_out <- plot_maker(data_frame=df1(),yvar="Accuracy",title1="Accuracy",yname="Score",xlab="PDSA cycle")
      }
    })
   
@@ -59,12 +61,13 @@ output$ResultsPlot <- renderPlot({
 #     p1 <- grid.arrange(p_time(),p_accuracy(),main=
 #                         textGrob(paste0("Mr. Potato Head PDSA Record ", Sys.Date()),
 #                                  gp=gpar(fontsize=16)))
-  inFile <- input$fileInput
-  if(is.null(inFile)) {
-    #user has not yet uploaded a file yet
-    return(NULL)
-  }
+#   inFile <- input$fileInput
+#   if(is.null(inFile)) {
+#     #user has not yet uploaded a file yet
+#     return(NULL)
+#   }
     print(p_both())
+  #print(p_time())
 #    }
   },width=600,height=800)
 })

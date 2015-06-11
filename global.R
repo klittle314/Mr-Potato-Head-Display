@@ -11,7 +11,7 @@ library(gridExtra)
 # df10 <- read.xlsx("Potato_Head_7_June.xlsx",sheetIndex=1,endRow=56,
 #                   colIndex=c(1:4),stringsAsFactors=FALSE)
 
-plot_maker <- function(data_frame,yvar,title1,yname) {
+plot_maker <- function(data_frame,yvar,title1,yname,xlab1) {
   df10 <- data_frame
   p1 <- ggplot(data=df10,aes_string(x="Cycle",y=yvar))+
     theme_bw()+
@@ -20,7 +20,7 @@ plot_maker <- function(data_frame,yvar,title1,yname) {
     ggtitle(title1)+
     theme(plot.title=element_text(size=rel(1.25)))+
     ylab(yname)+
-    xlab("")+
+    xlab(xlab1)+
     theme(axis.text.y=element_text(size=rel(1.0)))+
     theme(axis.text.x=element_text(size=rel(1.15)))+
     theme(axis.title=element_text(size=rel(1.5)))+
