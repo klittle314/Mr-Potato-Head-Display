@@ -1,8 +1,6 @@
 
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
+# server.R 
+# 
 #
 
 library(shiny)
@@ -47,27 +45,40 @@ shinyServer(function(input, output) {
        #user has not yet uploaded a file yet
        return(NULL)
      } else { 
-          p_out <- grid.arrange(p_time(),p_accuracy(),main=
-                                  textGrob(paste0("Mr. Potato Head PDSA Record ", Sys.Date()),
+       title1 <- input$text   
+       p_out <- grid.arrange(p_time(),p_accuracy(),main= textGrob(title1,
                                           gp=gpar(fontsize=16)))
      }
    })
 
-output$ResultsPlot <- renderPlot({
-#    df2 <- df1()
-#    if(is.null(df2)) {
-#      return(NULL)
-#    } else {
-#     p1 <- grid.arrange(p_time(),p_accuracy(),main=
-#                         textGrob(paste0("Mr. Potato Head PDSA Record ", Sys.Date()),
-#                                  gp=gpar(fontsize=16)))
-#   inFile <- input$fileInput
-#   if(is.null(inFile)) {
-#     #user has not yet uploaded a file yet
-#     return(NULL)
-#   }
-    print(p_both())
-  #print(p_time())
-#    }
+  output$ResultsPlot <- renderPlot({
+        print(p_both())
+    
   },width=600,height=800)
+ 
+  #suggestion https://groups.google.com/forum/#!topic/shiny-discuss/u7gwXc8_vyY by Patrick Renschler 2/26/14
+  p_both2 = function(){
+    inFile <- input$fileInput
+    if(is.null(inFile)) {
+      #user has not yet uploaded a file yet
+      return(NULL)
+    } else { 
+      title1 <- input$text   
+      p_out <- grid.arrange(p_time(),p_accuracy(),main= textGrob(title1,
+                                                                 gp=gpar(fontsize=16)))
+    }
+  }
+
+  output$downloadDisplay <- downloadHandler(
+#     filename = function() {
+#       paste0(input$text,"_plot_",Sys.Date(),".png")},
+    filename=paste0("Mr_Potato_Head_display_",Sys.Date(),".png"),
+    content <- function(file) {
+      png(file,width=600,height=800)
+      p_both2()
+      dev.off()},
+    contentType = "image/png"
+  )   
+# }
+#    })
 })
