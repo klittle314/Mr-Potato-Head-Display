@@ -21,21 +21,29 @@ shinyServer(function(input, output) {
  
   p_time <- reactive({
     inFile <- input$fileInput
+    size_dot <- input$size
     if(is.null(inFile)) {
       #user has not yet uploaded a file yet
       return(NULL)
     } else {
-        p_out <- plot_maker(data_frame=df1(),yvar="Time",title1="Time",yname="Seconds",xlab="")
+        p_out <- plot_maker(data_frame=df1(),
+                            yvar="Time",
+                            title1="Time",
+                            yname="Seconds",
+                            xlab="",
+                            size1=size_dot
+                            )
     }
   })
   
    p_accuracy <- reactive({
      inFile <- input$fileInput
+     size_dot <- input$size
      if(is.null(inFile)) {
        #user has not yet uploaded a file yet
        return(NULL)
      } else { 
-        p_out <- plot_maker(data_frame=df1(),yvar="Accuracy",title1="Accuracy",yname="Score",xlab="PDSA cycle")
+        p_out <- plot_maker(data_frame=df1(),yvar="Accuracy",title1="Accuracy",yname="Score",xlab="PDSA cycle",size1=size_dot)
      }
    })
   
@@ -46,8 +54,18 @@ shinyServer(function(input, output) {
        return(NULL)
      } else { 
        title1 <- input$text   
-       p_out <- grid.arrange(p_time(),p_accuracy(),main= textGrob(title1,
-                                          gp=gpar(fontsize=16)))
+       # p_out <- grid.arrange(p_time(),
+       #                       p_accuracy(),
+       #                       top=textGrob(title1,gp=gpar(fontsize=16)),
+       #                       ncol=1,
+       #                       nrow=3,
+       #                      widths=unit(width1,c("cm")),
+       #                      heights=c(unit(height1,c("cm")),
+       #                                unit(height1,c("cm")),
+       #                                unit(3,c("cm")))
+       #                                
+       # )
+       p_out <- grid.arrange(plot_grid(p_time(),p_accuracy(),ncol=1),top=textGrob(title1,gp=gpar(fontsize=16)))
      }
    })
 
@@ -64,7 +82,7 @@ shinyServer(function(input, output) {
       return(NULL)
     } else { 
       title1 <- input$text   
-      p_out <- grid.arrange(p_time(),p_accuracy(),main= textGrob(title1,
+      p_out <- grid.arrange(p_time(),p_accuracy(),top= textGrob(title1,
                                                                  gp=gpar(fontsize=16)))
     }
   }
