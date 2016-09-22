@@ -28,7 +28,14 @@ shinyUI(fluidPage(
       fileInput("fileInput","Upload CSV file with columns: Cycle, Team, Time, Accuracy",
                 accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv')),
       helpText("Click Download display button to get a .png version of the small multiples display."),
-      downloadButton("downloadDisplay","Download display")
+      downloadButton("downloadDisplay","Download display"),
+      br(),
+      br(),
+      helpText("Adjust size of the plotted point"), 
+                   # Simple integer interval for width and height of graph
+                   sliderInput("size", "size:", 
+                               min=3, max=5, value=4),
+      width=3
     ),
 
     # Show a plot of the generated distribution
